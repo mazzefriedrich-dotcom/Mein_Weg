@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mein Fundament</title>
+<style>
+@page{size:A4;margin:12mm}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#24182f;background:#fff;margin:0;font-size:13pt;line-height:1.3}
+.page{max-width:186mm;margin:0 auto;padding:0;page-break-after:always}
+.page:last-child{page-break-after:auto}
+h1{font-size:24pt;margin:0 0 2mm;color:#5b3a8e}
+h2{font-size:16pt;margin:0 0 2mm;color:#5b3a8e}
+p{margin:0 0 3mm}
+.sub{font-size:12pt;color:#5d4c70}
+.haus{display:flex;flex-direction:column;gap:1.5mm;margin-top:2mm}
+.etage{border:2.5px solid #5b3a8e;border-radius:4mm;padding:2mm 3.5mm;background:#f6f0fc}
+.etage b{font-size:14pt}
+.etage .kann{font-size:11.5pt;color:#24182f;margin-top:1mm}
+.etage .fehlt{font-size:10.5pt;color:#8a2c2c;margin-top:1mm}
+.dach{background:#fff7e8;border-color:#e2a13b;text-align:center}
+.f{background:#5b3a8e;color:#fff;border-color:#3e2766}
+.f .kann{color:#fff}.f .fehlt{color:#ffd9d9}
+.pfeil{text-align:center;font-size:11pt;color:#5b3a8e;line-height:1}
+.reihe{display:flex;gap:2.5mm}.reihe .etage{flex:1}
+.kette{display:flex;flex-wrap:wrap;align-items:center;gap:2mm;margin:2mm 0 1mm}
+.kette span{border:2px solid #5b3a8e;border-radius:3mm;padding:1mm 2.5mm;background:#f6f0fc;font-weight:700;font-size:11.5pt}
+.kette i{font-style:normal;color:#5b3a8e;font-weight:800}
+.box{border:2px solid #e2d7ee;border-radius:4mm;padding:3mm;margin:0 0 3mm}
+.warn{background:#fff4f2;border-color:#d9534f}
+ol,ul{margin:1mm 0 2mm 6mm;padding-left:4mm}li{margin-bottom:1.5mm}
+.regel{font-size:18pt;font-weight:800;text-align:center;border:3px solid #5b3a8e;border-radius:5mm;padding:3mm;margin:3mm 0}
+.klein{font-size:10.5pt;color:#5d4c70}
+.druck{position:fixed;right:12px;bottom:12px;background:#5b3a8e;color:#fff;border:0;border-radius:30px;font-size:16px;font-weight:800;padding:14px 20px}
+@media print{.druck{display:none}}
+</style>
+</head>
+<body>
+<button class="druck" onclick="window.print()">🖨️ Drucken</button>
+
+<!-- SEITE 1: DAS HAUS -->
+<div class="page">
+  <h1>🏛️ Mein Fundament</h1>
+  <p class="sub">Wie ein Haus: Unten das Fundament, darauf baut alles auf. Geht oben etwas kaputt, ist es schnell repariert. Bleibt das Fundament heil, ist nichts verloren.</p>
+  <div class="haus">
+    <div class="etage dach"><b>🏠 Alles, was Freude macht</b><div class="kann">Musik, Filme, Fotos, Licht mit der Stimme, Anrufe mit Alexa, Einkaufen, Bezahlen</div></div>
+    <div class="pfeil">▲</div>
+    <div class="reihe">
+      <div class="etage"><b>🛒 Amazon</b><div class="kann">Darauf: Alexa, Echos, Fire TV, Prime, Fotos</div><div class="fehlt">Anderes Konto? Dann kennt Alexa meine Geräte nicht.</div></div>
+      <div class="etage"><b>🏦 Bank, PayPal</b><div class="kann">Nur ich melde mich an.</div><div class="fehlt">Codes kommen an meine Nummer.</div></div>
+    </div>
+    <div class="pfeil">▲</div>
+    <div class="etage"><b>🔐 Bitwarden: alle Passwörter</b><div class="kann">Damit komme ich überall wieder rein, auch auf einem neuen Handy.</div><div class="fehlt">Fehlt es: Jedes Konto muss einzeln mit „Passwort vergessen“ zurückgeholt werden.</div></div>
+    <div class="pfeil">▲</div>
+    <div class="etage"><b>📱 Mein Handy (mit PIN und meinem Fingerabdruck)</b><div class="kann">Darauf: WhatsApp, Alexa-App, Banking, Fotos</div><div class="fehlt">Weg? Kein Drama: Neues Handy, Google-Konto, Bitwarden, fertig.</div></div>
+    <div class="pfeil">▲</div>
+    <div class="etage"><b>👤 Ein Google-Konto</b><div class="kann">Darüber kommen Kontakte, Fotos und Apps auf jedes neue Handy.</div><div class="fehlt">Zwei Konten oder ein Tippfehler im Namen? Dann liegen Sachen im „falschen“ Konto.</div></div>
+    <div class="pfeil">▲</div>
+    <div class="etage f"><b>🧱 DAS FUNDAMENT</b><div class="kann">📞 <b>Meine eigene Handynummer</b> &nbsp;+&nbsp; 📧 <b>Meine eine wichtige E-Mail-Adresse</b> &nbsp;+&nbsp; 🏠 <b>Mein WLAN</b></div><div class="kann">Hier kommen alle Codes und alle „Passwort vergessen“-Mails an. Wer das hat, hat den Schlüssel zu allem.</div></div>
+  </div>
+  <div class="regel">Nur ich ändere mein Fundament.</div>
+  <p class="klein">In Ruhe, und wenn ich will, mit jemandem, dem ich vertraue, neben mir. Jede Änderung schreibe ich in meiner App „Mein Wegbegleiter“ bei „Was wurde geändert“ auf.</p>
+</div>
+
+<!-- SEITE 2: WIE HÄNGT WAS ZUSAMMEN -->
+<div class="page">
+  <h1>🔗 Wie hängt was zusammen?</h1>
+  <div class="box">
+    <h2>💡 Licht und Steckdosen mit der Stimme</h2>
+    <div class="kette"><span>Amazon-Konto</span><i>→</i><span>Alexa-App</span><i>→</i><span>Skill „LSC Smart Connect“</span><i>→</i><span>Lampen, Steckdosen</span></div>
+    <ul>
+      <li>Die Lampen und Steckdosen (von Action, Marke LSC) werden zuerst in der <b>App „LSC Smart Connect“</b> eingerichtet.</li>
+      <li>Diese App wird in der <b>Alexa-App</b> verbunden („Skill“). Erst dann kann Alexa sie schalten.</li>
+      <li>Alexa gehört zu <b>Amazon</b>. Alexa-App, Echos und Fire TV müssen <b>dasselbe Amazon-Konto</b> haben.</li>
+    </ul>
+    <p class="klein">Fehlt die LSC-App, oder ist ein Gerät auf einem anderen Konto, kann Alexa es nicht steuern.</p>
+  </div>
+  <div class="box">
+    <h2>📺 Fernsehen, Filme, Fotos</h2>
+    <div class="kette"><span>Amazon-Konto</span><i>→</i><span>Fire TV</span><i>→</i><span>Prime Video, Fotos, Musik</span></div>
+    <p class="klein">Fire TV, Echos und Alexa-App auf dem gleichen Konto: Dann zeigt der Fernseher meine Fotos und hört auf „Alexa“.</p>
+  </div>
+  <div class="box">
+    <h2>💬 WhatsApp</h2>
+    <div class="kette"><span>Meine Handynummer</span><i>→</i><span>WhatsApp</span></div>
+    <p class="klein">WhatsApp braucht nur meine Handynummer, keine E-Mail-Adresse.</p>
+  </div>
+  <div class="box">
+    <h2>📞 Mein Anrufbeantworter</h2>
+    <ul>
+      <li><b>Festnetz:</b> Der Anrufbeantworter steckt in meiner <b>FritzBox</b>. Abhören am Festnetz-Telefon: <b>**600</b> wählen. Neue Nachrichten zeigt auch die FritzBox an.</li>
+      <li><b>Handy:</b> Die Mailbox ist bei meinem Handy-Anbieter. Bei Vodafone: <b>5500</b> anrufen.</li>
+    </ul>
+    <p class="klein">Welcher Anrufbeantworter wirklich eingeschaltet ist, wird beim Einrichten der FritzBox geprüft und hier eingetragen: ____________________</p>
+  </div>
+</div>
+
+<!-- SEITE 3: HANDY WEG + SELBST NACHSEHEN -->
+<div class="page">
+  <h1>📵 Mein Handy ist weg</h1>
+  <div class="box warn">
+    <ol>
+      <li>Von einem anderen Handy oder Computer: <b>google.com/android/find</b>, mit meinem Google-Konto anmelden. Handy sperren oder löschen.</li>
+      <li>SIM-Karte sperren: <b>Vodafone</b> anrufen (Nummer auf der Rechnung).</li>
+      <li>Bankkarten und Banking sperren: <b>116 116</b> (kostenlos, Tag und Nacht).</li>
+      <li>Bei Diebstahl: <b>Polizei</b>.</li>
+      <li>Neues Handy: mit dem Google-Konto anmelden, <b>Bitwarden</b> installieren, Master-Passwort eingeben. Alles kommt zurück.</li>
+    </ol>
+    <p><b>Notruf: 112</b></p>
+  </div>
+  <div class="box">
+    <h2>🌐 Internet zu Hause</h2>
+    <div class="kette"><span>Vodafone-Vertrag</span><i>→</i><span>FritzBox</span><i>→</i><span>Mein WLAN</span><i>→</i><span>Handy, Echos, Fire TV, Drucker</span></div>
+    <div class="kette"><span>FritzBox</span><i>→</i><span>Gast-WLAN (QR-Code)</span><i>→</i><span>Besuch</span></div>
+  </div>
+  <h2>🔍 Ich kann selbst nachsehen</h2>
+  <p>Wann wurde etwas eingerichtet oder geändert? Wer hat sich angemeldet? Das steht in meinen Konten:</p>
+  <ul>
+    <li><b>Google:</b> myaccount.google.com › Sicherheit › „Letzte sicherheitsrelevante Aktivitäten“ und „Meine Geräte“.</li>
+    <li><b>E-Mail:</b> Wann ein Konto angelegt wurde, steht meist in der ersten Mail („Willkommen bei …“). Im Postfach nach „Willkommen“ suchen.</li>
+    <li><b>Amazon:</b> Konto › Anmelden und Sicherheit; Inhalte und Geräte › Geräte.</li>
+    <li><b>PayPal, Bank:</b> Einstellungen › Sicherheit › angemeldete Geräte.</li>
+    <li><b>FritzBox:</b> fritz.box › System › Ereignisse. Dort steht, wer sich wann angemeldet und was geändert hat.</li>
+  </ul>
+  <p class="klein">Neutrale Stellen, die mir sagen, ob das so richtig ist: Verbraucherzentrale, Polizei-Beratung, BSI (Bundesamt für Sicherheit in der Informationstechnik).</p>
+  <p class="klein"><b>👮 Ich darf auch selbst zur Polizei gehen</b>, wenn mir etwas komisch vorkommt, bei jedem: Polizeiwache oder kostenlose Kriminalpolizeiliche Beratungsstelle (polizei-beratung.de). Bei Gefahr: <b>110</b>. Dieses Poster und mein Handy nehme ich mit.</p>
+</div>
+</body>
+</html>
