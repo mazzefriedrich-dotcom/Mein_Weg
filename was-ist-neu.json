@@ -1,5 +1,10 @@
 [
  {
+  "version": 65,
+  "datum": "2026-11-23",
+  "text": "Neu: der „Fehler-Finder“. Etwas geht nicht? Ich wähle aus (Kein Internet, Amazon, Echo, Fernseher, Drucker, Licht) und antworte nur mit Ja oder Nein. Die App prüft selbst, ob das Handy Internet hat, und zeigt mir bei jedem Nein, wie es geht. Dazu: Mit Claude etwas schreiben und drucken."
+ },
+ {
   "version": 63,
   "datum": "2026-11-22",
   "text": "Firefox ist dabei: bei „Meine wichtigen Apps“, in der Liste zum Abhaken und bei „Wer weiß was über mich?“. Firefox für das Internet, Bitwarden für die Passwörter, Bank und Amazon weiter in ihren eigenen Apps."

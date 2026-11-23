@@ -189,6 +189,7 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
   <div id="homeCats"></div>
   <div class="tiles" id="homeAlle" hidden>
     <button class="tile" onclick="go('notfall')"><span class="ico">🆘</span><span>Notfall<small>Was tun, wenn es mir schlecht geht?</small></span></button>
+    <button class="tile" onclick="go('finder')"><span class="ico">🔎</span><span>Fehler-Finder<small>Etwas geht nicht? Ja oder Nein, Schritt für Schritt</small></span></button>
     <button class="tile" onclick="go('selbst')" style="border-color:var(--brand)"><span class="ico">🧩</span><span>Ergänze mein Wissen<small>Wie geht das? Schritt für Schritt</small></span></button>
     <button class="tile" onclick="go('tresor')"><span class="ico">🗝️</span><span>Gemeinsamer Tresor<small>Geht nur zu zweit auf</small></span></button>
     <button class="tile" onclick="go('schutz')"><span class="ico">🔒</span><span>Mein App-Schloss<small id="schSmall">Private Seiten nur für mich</small></span></button>
@@ -1162,6 +1163,7 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
 <section data-page="selbst" data-title="Ergänze mein Wissen" hidden>
   <div id="shListe">
     <div class="card rule"><p class="big-rule">Heute lerne ich etwas dazu. 💜</p><p>Ich tippe auf das, was ich wissen möchte. Dann kommt <b>ein Schritt nach dem anderen</b>, in meinem Tempo. Mit diesen Schritten kann ich nichts kaputt machen.</p></div>
+    <button class="tile" onclick="go('finder')" style="border-color:var(--ok)"><span class="ico">🔎</span><span>Etwas geht gerade nicht?<small>Der Fehler-Finder sucht mit mir, nur Ja oder Nein</small></span></button>
     <div id="shBtns"></div>
     <button class="tile" onclick="shClaude('')"><span class="ico">🤖</span><span>Etwas anderes wissen<small>Ich frage Claude, ganz in Ruhe</small></span></button>
     <div id="shGeloest"></div>
@@ -1767,6 +1769,45 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
   <button class="cmd" style="width:100%;min-height:52px;margin-top:8px" onclick="document.getElementById('netzOv').hidden=true">‹ Lieber später</button>
 </div></div>
 
+<!-- FEHLER-FINDER -->
+<section data-page="finder" data-title="Fehler-Finder" hidden>
+  <div id="ffListe">
+    <div class="card motiv"><p class="big-rule">🔎 Wir finden es zusammen.</p><p>Ich wähle, was nicht geht. Dann kommen kurze Fragen, ich tippe nur <b>Ja</b> oder <b>Nein</b>. Meistens ist es eine Kleinigkeit.</p></div>
+    <div id="ffBtns"></div>
+    <details class="card"><summary>🖨️ Mit Claude etwas schreiben und drucken</summary>
+      <ol><li>In der <b>Claude-App</b> sagen, was ich brauche, zum Beispiel: „Schreib mir eine Kündigung für …, mit meinem Namen und meiner Adresse als Platzhalter.“</li>
+      <li>Den Text <b>lange drücken › Kopieren</b>.</li>
+      <li>Die App <b>Google Docs</b> öffnen › <b>+</b> › Neues Dokument › lange tippen › <b>Einfügen</b>. Meinen Namen und meine Adresse selbst eintragen.</li>
+      <li>Oben <b>⋮</b> › <b>Teilen und exportieren</b> › <b>Drucken</b> › meinen Drucker wählen › Drucken.</li></ol>
+      <p class="note">Claude schreibt den Text, drucken kann Claude nicht selbst. Den Knopf drücke ich. Viele Kündigungen gehen auch ganz ohne Papier, direkt in der App oder auf der Seite des Anbieters.</p>
+    </details>
+    <details class="card"><summary>📧 Meine eine richtige E-Mail (zum Vergleichen)</summary>
+      <p>Damit ich sofort sehe, ob oben die richtige E-Mail steht. Nur die Adresse, nie ein Passwort.</p>
+      <input id="ffMail" type="email" placeholder="meine.adresse@…" style="width:100%" onchange="store('meineMail',this.value.trim());ffMailZeig()">
+    </details>
+  </div>
+  <div id="ffFrage" hidden>
+    <p class="big-rule" id="ffTitel" style="text-align:center;font-size:1.35em;padding:0 10px"></p>
+    <div class="card"><p class="note" id="ffNr"></p><div class="shstep" id="ffText"></div><div id="ffAuto"></div>
+      <button class="cmd" style="width:100%;min-height:52px;margin-top:10px" onclick="say2(document.getElementById('ffText').textContent)">🔊 Vorlesen</button></div>
+    <div id="ffJaNein" class="cmds"><button class="play" style="background:var(--ok);margin:0" onclick="ffAntwort(true)">✓ Ja</button><button class="play" style="background:var(--brand);margin:0" onclick="ffAntwort(false)">✗ Nein</button></div>
+    <div id="ffFix" hidden><div class="card" style="border:3px solid var(--ok)"><p><b>💡 So geht es:</b></p><div id="ffFixText"></div></div>
+      <button class="play" style="background:var(--ok);margin-top:0" onclick="ffGeklappt()">✓ Jetzt klappt es!</button>
+      <button class="cmd" style="width:100%;min-height:56px" onclick="ffWeiter()">Geht noch nicht › nächste Frage</button></div>
+    <button class="cmd" style="width:100%;min-height:52px;margin-top:14px" onclick="ffListe()">‹ Etwas anderes</button>
+  </div>
+  <div id="ffEnde" hidden>
+    <div class="card" style="text-align:center"><p class="big-rule" id="ffEndeTitel"></p><p id="ffEndeText"></p></div>
+    <div id="ffHilfe" hidden>
+      <div class="card"><p>Ich habe schon viel geprüft. Das hier schicke ich, dann weiß man sofort Bescheid:</p><textarea id="ffBericht" rows="6" style="width:100%"></textarea>
+        <button class="play" style="background:var(--brand)" onclick="window.open('https://claude.ai/new?q='+encodeURIComponent(document.getElementById('ffBericht').value+' Bitte hilf mir in einfachen Worten, immer nur ein Schritt.'),'_blank')">🤖 Claude fragen</button>
+        <button class="play" style="background:#25a35a" onclick="window.open(waLink(document.getElementById('ffBericht').value),'_blank')">💬 An die Technik-Hilfe</button>
+        <button class="cmd" style="width:100%;min-height:52px" onclick="try{navigator.clipboard.writeText(document.getElementById('ffBericht').value);this.textContent='✓ Kopiert'}catch(e){}">📋 Text kopieren</button></div>
+    </div>
+    <button class="cmd" style="width:100%;min-height:52px" onclick="ffListe()">‹ Zurück zur Auswahl</button>
+  </div>
+</section>
+
 <!-- NOTFALL -->
 <section data-page="notfall" data-title="Notfall" hidden>
   <a class="callbtn" style="background:#c62828;font-size:1.5rem;padding:26px" href="tel:112">🚑 112 anrufen</a>
@@ -2306,7 +2347,7 @@ async function wJahr(){const all=load('wochen',{}),keys=Object.keys(all).sort().
   box.innerHTML='<p>'+keys.length+' '+(keys.length===1?'Woche':'Wochen')+' gesammelt.</p>'+keys.map(k=>{const e=all[k];return '<div class="wk"><b>Woche vom '+new Date(k+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})+'</b>'+(fotos[k]?'<img src="'+fotos[k]+'" alt="Foto der Woche">':'')+WQ.filter(q=>e[q]).map(q=>'<p><span class="note">'+WQL[q]+':</span> '+esc(e[q])+'</p>').join('')+'</div>'}).join('')}
 
 /* ---- Sicherung (alles) ---- */
-const BK_KEYS=['menschen','wochen','checks','diary','vertraege','reihen','packs','rauchfrei','eDates','papierOrt','angebote','vorrat','gWerte','tabs','termine','genommen','wichtig','aenderungen','blick','geloest','wissen','wuensche','fotoOrte','protokolle','fundament','fbZustimmung','teilen','aufraeumen','neuSt','tresor','handy','handyModell','nutzung','entdeckt','schlossOpt','mailPlan','amazon2','monatsCheck','appsDa','bwBlatt'];
+const BK_KEYS=['menschen','wochen','checks','diary','vertraege','reihen','packs','rauchfrei','eDates','papierOrt','angebote','vorrat','gWerte','tabs','termine','genommen','wichtig','aenderungen','blick','geloest','wissen','wuensche','fotoOrte','protokolle','fundament','fbZustimmung','teilen','aufraeumen','neuSt','tresor','handy','handyModell','nutzung','entdeckt','schlossOpt','mailPlan','amazon2','monatsCheck','appsDa','bwBlatt','meineMail'];
 async function backupAll(nurDatei){
   const data={app:'mein-helfer',version:1,datum:new Date().toISOString(),daten:{}};
   try{data.fotos=await fotoAll()}catch(e){}
@@ -2992,7 +3033,7 @@ const HOME_FIX=['notfall','selbst','jetzt','erklaer'];
 const HOME_CATS=[
  ['🧺','Mein Alltag','Tabletten, Termine, Vorrat, Einkaufen, Papiere',['wichtig','tabletten','gesundheit','vorrat','angebote','packen','papiere','vertraege']],
  ['💜','Für mich','Mein Tag, meine Woche, meine Menschen, Freude',['tag','woche','menschen','fuermich','freizeit','rauchfrei','wissen','neu']],
- ['🏠','Zuhause und Technik','Alexa, Licht, Fernsehen, Musik, Auto, Apps',['alexamehr','demo','medien','musik','auto','apps','wo','hilfe']],
+ ['🏠','Zuhause und Technik','Fehler-Finder, Alexa, Licht, Fernsehen, Musik, Apps',['finder','alexamehr','demo','medien','musik','auto','apps','wo','hilfe']],
  ['🛡️','Sicher und geschützt','Fundament, Konten, Tresor, Sicherung',['fundament','teilen','schutz','tresor','sicherung','blick','check','regeln','sinnvoll','vorsorge','eingerichtet','pruefstelle','besuch','warum']]];
 const ENTDECKEN=[['fundament','Kennst du schon <b>Mein Fundament</b>? Dort steht das Wichtigste, worauf alles aufbaut.'],['erklaer','Kennst du schon <b>„Erklär du es bitte“</b>? Wenn Besuch fragt, erklärt die App alles für mich.'],['jetzt','Kennst du schon <b>„Hilf mir jetzt“</b>? Bei Migräne, zum Beruhigen oder wenn ich fröhlich werden möchte.'],['selbst','Kennst du schon <b>„Wie geht das?“</b>? Schritt für Schritt, ganz allein.'],['wissen','Kennst du schon <b>Mein Wissen</b>? Dort merke ich mir, wo ich was gucke und was ich gelernt habe.'],['teilen','Kennst du schon <b>„Wer darf was bei mir?“</b>? Teilen, ohne mein Passwort.'],['tresor','Kennst du schon den <b>Gemeinsamen Tresor</b>? Er geht nur zu zweit auf.'],['blick','Kennst du schon <b>„Was hat sich verändert?“</b>? Ich sehe, ob jemand an meinem Handy war.'],['warum','Kennst du schon <b>„Warum ist das so?“</b>? Ich darf alles nachfragen.'],['sicherung','Kennst du schon <b>Meine Sicherung</b>? Damit nichts verloren geht.'],['alexamehr','Kennst du schon <b>„Alexa kann noch mehr“</b>? Durchs Haus rufen, telefonieren, mit Bild.'],['neu','Kennst du schon <b>„Neu erklärt“</b>? Dort kommen neue Antworten dazu.']];
 let nutzung=load('nutzung',{}),entd=load('entdeckt',{aus:{},spaeter:{}});
@@ -3031,7 +3072,7 @@ function psRender(){document.getElementById('psName').textContent=TH_NAME;const 
 function psDruck(){psRender();const w=window.open('','_blank');if(!w)return;const sec=document.querySelector('section[data-page="pruefstelle"]').cloneNode(true);sec.querySelectorAll('button').forEach(b=>b.remove());sec.hidden=false;
   w.document.write('<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Zum Vorzeigen</title><style>body{font-family:system-ui,sans-serif;font-size:12.5pt;line-height:1.45;margin:15mm;color:#222}.card{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:0 0 10px}h2{font-size:14pt;color:#5b3a8e;margin:4px 0}.big-rule{font-size:18pt;font-weight:800}.note{color:#555;font-size:10.5pt}</style></head><body>'+sec.innerHTML+'<p class="note">Ausgedruckt am '+new Date().toLocaleDateString('de-DE')+'</p></body></html>');w.document.close();setTimeout(()=>w.print(),300)}
 /* ---- Updates nur mit Zustimmung ---- */
-const APP_VERSION=63;let updReg=null,updAngenommen=false,updNeu=[];
+const APP_VERSION=65;let updReg=null,updAngenommen=false,updNeu=[];
 async function updListe(){try{const r=await fetch('was-ist-neu.json?'+Date.now(),{cache:'no-store'});if(r.ok){const l=await r.json();return l.filter(x=>x.version>APP_VERSION).sort((a,b)=>a.version-b.version)}}catch(e){}return []}
 async function updPruefen(){const st=document.getElementById('updStand');if(st)st.textContent='Meine Version: '+APP_VERSION+'.';
   if(!updReg||!updReg.waiting||!navigator.serviceWorker.controller){document.getElementById('updBox').innerHTML='';return}
@@ -3125,6 +3166,64 @@ abRender();
 function bwSet(){const c=document.getElementById('bwBlatt').checked;store('bwBlatt',c?Date.now():0);try{logAdd(c?'Bitwarden-Notfallblatt liegt im Schrank':'Bitwarden-Notfallblatt: Haken entfernt','Erika')}catch(e){}bwRender()}
 function bwRender(){const v=load('bwBlatt',0);const c=document.getElementById('bwBlatt');if(!c)return;c.checked=!!v;document.getElementById('bwInfo').textContent=v?'Abgehakt am '+new Date(v).toLocaleDateString('de-DE')+'.':''}
 bwRender();
+/* ---- Fehler-Finder ---- */
+function ffZu(p,id){go(p);setTimeout(()=>{const k=document.getElementById(id);if(k){if(k.tagName==='DETAILS')k.open=true;k.scrollIntoView()}},250)}
+const FF_NETZ={f:'Hat mein Handy gerade Internet?',auto:1,fix:'Dann liegt es am Internet, nicht an mir. <a href="#" onclick="ffStart(\'netz\');return false">› Zum Weg „Kein Internet“</a>'};
+const FF=[
+ {id:'netz',e:'📶',t:'Kein Internet',s:'WLAN geht nicht, nichts lädt',st:[FF_NETZ,
+  {f:'Ist am Handy das <b>WLAN</b> an? (Oben das Fächer-Symbol.)',fix:'Von oben nach unten wischen und auf <b>WLAN</b> tippen, bis es farbig ist.'},
+  {f:'Leuchten an der <b>FritzBox</b> die Lämpchen „Power“ und „WLAN“?',fix:'Den <b>Stecker der FritzBox 30 Sekunden</b> ziehen, wieder einstecken und <b>3 Minuten</b> warten. Das hilft sehr oft.'},
+  {f:'Ist das Handy mit <b>meinem</b> WLAN verbunden? (Der Name steht unten auf der FritzBox.)',fix:'Einstellungen › <b>WLAN</b> › meinen Namen antippen. Der WLAN-Schlüssel steht unten auf der FritzBox. Nach einem neuen Router oder neuen Schlüssel muss jedes Gerät das WLAN einmal neu lernen.'},
+  {f:'Kommen andere Geräte (Tablet, Fernseher) ins Internet?',fix:'Dann ist vielleicht die Leitung gestört. Das ist nicht meine Schuld. Mit den mobilen Daten des Handys die Störungsseite meines Anbieters ansehen, oder die Nummer auf der Rechnung anrufen.'}]},
+ {id:'amazon',e:'🛒',t:'Ich komme nicht in Amazon',s:'Anmelden klappt nicht',st:[FF_NETZ,
+  {f:'Steht bei der Anmeldung <b>meine eine E-Mail</b>?',mail:1,fix:'Auf <b>„Ändern“</b> oder <b>„Abmelden“</b> tippen und mit meiner E-Mail anmelden. Manchmal ist noch ein anderes Konto auf dem Gerät. <a href="#" onclick="ffZu(\'wissen\',\'amz2\');return false">› Zwei Amazon-Konten</a>'},
+  {f:'Hat <b>Bitwarden</b> das Passwort eingefügt?',fix:'Bitwarden öffnen, „Amazon“ suchen, auf das Passwort tippen › <b>Kopieren</b>, dann bei Amazon einfügen. Geht Bitwarden nicht auf: <a href="#" onclick="ffZu(\'fundament\',\'bwNot\');return false">› Ich komme nicht in Bitwarden</a>'},
+  {f:'Kommt der <b>Bestätigungs-Code</b> an mein Handy?',fix:'Zwei Minuten warten und auf Empfang achten. Kommt nichts: vielleicht steht im Konto noch eine alte Nummer. Das schaue ich mit der Technik-Hilfe zusammen an (<a href="#" onclick="ffZu(\'blick\',\'monatsCheck\');return false">Monats-Check</a>).'}]},
+ {id:'echo',e:'🗣️',t:'Mein Echo reagiert nicht',s:'Alexa antwortet nicht',st:[
+  {f:'Leuchtet der Echo, wenn ich „Alexa“ sage?',fix:'Den <b>Stecker 10 Sekunden</b> ziehen, wieder einstecken, 1 Minute warten.'},
+  {f:'Ist der Leuchtring <b>nicht rot</b>?',fix:'Rot heißt: Mikrofon aus. Oben auf die <b>Mikrofon-Taste</b> drücken.'},
+  FF_NETZ,
+  {f:'Zeigt die Alexa-App den Echo als <b>online</b>? (Geräte › Echo &amp; Alexa)',fix:'In der Alexa-App den Echo antippen › Einstellungen › <b>WLAN ändern</b>. Nach einem neuen Router muss der Echo das WLAN neu lernen.'},
+  {f:'Steht in der Alexa-App <b>mein Name</b>? (Mehr › Einstellungen › Konto)',fix:'Dann ist ein anderes Konto angemeldet. Abmelden und mit meiner E-Mail anmelden. Der Echo muss in <b>meinem</b> Konto sein.'}]},
+ {id:'tv',e:'📺',t:'Fernseher oder Fire TV geht nicht',s:'Kein Bild, keine Reaktion',st:[
+  {f:'Ist der Fernseher an? (Lämpchen oder Bild)',fix:'Netzstecker prüfen, dann den Ein-Knopf am Fernseher drücken.'},
+  {f:'Sehe ich das Fire-TV-Bild?',fix:'Auf der Fernseher-Fernbedienung <b>„Source“</b> oder <b>„Input“</b> drücken und den <b>HDMI</b>-Eingang wählen, an dem der Fire TV steckt.'},
+  {f:'Reagiert die <b>Fire-TV-Fernbedienung</b>?',fix:'Die <b>Home-Taste 10 Sekunden</b> drücken. Hilft das nicht: neue Batterien.'},
+  {f:'Hat der Fire TV <b>Internet</b>? (Einstellungen › Netzwerk: „Verbunden“)',fix:'Den <b>Stecker vom Fire TV 30 Sekunden</b> ziehen. Danach unter Einstellungen › Netzwerk mein WLAN wählen.'}]},
+ {id:'drucker',e:'🖨️',t:'Mein Drucker druckt nicht',s:'Nichts kommt heraus',st:[
+  {f:'Ist der Drucker <b>eingeschaltet</b>? (Lämpchen leuchtet)',fix:'Den Ein-Knopf am Drucker drücken und 1 Minute warten, bis er bereit ist.'},
+  {f:'Hat er <b>Papier</b>, und zeigt er <b>keine Tinten-Warnung</b>?',fix:'Papier einlegen. Blinkt ein Tropfen-Symbol: Die Tinte ist leer. Die Nummer der Patrone steht auf der alten Patrone.'},
+  FF_NETZ,
+  {f:'Ist der Drucker in <b>meinem</b> WLAN? (Lämpchen „WLAN“ leuchtet ruhig)',fix:'Den Drucker <b>30 Sekunden</b> vom Strom nehmen und wieder einschalten. Nach einem neuen Router muss er das WLAN neu lernen, das machen wir einmal zusammen. Zur Not hat der Drucker ein <b>eigenes WLAN</b> („Wi-Fi Direct“, oft mit DIRECT im Namen): Am Handy unter Einstellungen › WLAN diesen Namen antippen, dann drucken, danach wieder mein WLAN wählen.'},
+  {f:'Erscheint mein Drucker beim Drucken in der <b>Auswahl</b>?',fix:'Einstellungen › oben suchen: <b>„Drucken“</b> › Druckdienst einschalten (<b>Mopria</b> oder die App vom Druckerhersteller). Fehlt er: im Play Store „Mopria Print Service“ holen.'}]},
+ {id:'licht',e:'💡',t:'Licht oder Steckdose reagiert nicht',s:'Alexa schaltet nicht',st:[
+  {f:'Ist der <b>Schalter an der Wand</b> an?',fix:'Der Wandschalter muss <b>immer an</b> bleiben, sonst bekommt die Lampe keinen Strom und Alexa kann sie nicht finden.'},
+  {f:'Geht es in der <b>LSC-App</b>?',fix:'Lampe oder Steckdose <b>10 Sekunden</b> vom Strom nehmen und wieder an. Nach einem neuen Router muss sie das WLAN in der LSC-App neu lernen.'},
+  {f:'Geht es in der <b>Alexa-App</b>?',fix:'Alexa-App › Geräte › <b>„+“ › Gerät hinzufügen › Geräte erkennen</b>. Oder zu Alexa sagen: „Alexa, finde meine Geräte.“'},
+  {f:'Sage ich den <b>Namen</b> genau so, wie er in der Alexa-App steht?',fix:'In der Alexa-App unter Geräte nachschauen, wie die Lampe heißt, und genau so sagen.'}]}];
+let ffAkt=null,ffI=0,ffLog=[];
+function ffListe(){['ffFrage','ffEnde'].forEach(i=>document.getElementById(i).hidden=true);document.getElementById('ffListe').hidden=false;
+  const b=document.getElementById('ffBtns');if(!b.childElementCount)FF.forEach(x=>{const t=document.createElement('button');t.className='tile';t.innerHTML='<span class="ico">'+x.e+'</span><span>'+x.t+'<small>'+x.s+'</small></span>';t.onclick=()=>ffStart(x.id);b.appendChild(t)});
+  document.getElementById('ffMail').value=load('meineMail','')}
+function ffStart(id){ffAkt=FF.find(x=>x.id===id);ffI=0;ffLog=[];document.getElementById('ffListe').hidden=true;document.getElementById('ffEnde').hidden=true;document.getElementById('ffFrage').hidden=false;document.getElementById('ffTitel').textContent=ffAkt.e+' '+ffAkt.t;ffZeig()}
+function ffMailZeig(){}
+function ffZeig(){const st=ffAkt.st[ffI];document.getElementById('ffNr').textContent='Frage '+(ffI+1)+' von '+ffAkt.st.length;document.getElementById('ffText').innerHTML=st.f;
+  document.getElementById('ffJaNein').hidden=false;document.getElementById('ffFix').hidden=true;const a=document.getElementById('ffAuto');a.innerHTML='';
+  if(st.mail){const m=load('meineMail','');a.innerHTML=m?'<p style="font-size:1.25em;text-align:center;background:var(--soft,#f3eefa);padding:10px;border-radius:12px"><b>'+m.replace(/</g,'&lt;')+'</b></p>':'<p class="note">Tipp: Meine richtige E-Mail kann ich unten auf der Auswahl-Seite eintragen, dann steht sie hier zum Vergleich.</p>'}
+  if(st.auto){a.innerHTML='<p class="note">Ich schaue kurz nach …</p>';ffNetzTest().then(ok=>{if(ffAkt.st[ffI]!==st)return;a.innerHTML=ok?'<p style="color:var(--ok)"><b>✓ Ja, das Handy hat Internet.</b></p>':'<p><b>Es sieht so aus, als hätte das Handy gerade kein Internet.</b></p>'})}
+  window.scrollTo(0,0)}
+function ffNetzTest(){if(!navigator.onLine)return Promise.resolve(false);return Promise.race([fetch('https://www.google.com/generate_204',{mode:'no-cors',cache:'no-store'}).then(()=>true).catch(()=>false),new Promise(r=>setTimeout(()=>r(false),5000))])}
+function ffAntwort(ja){const st=ffAkt.st[ffI];ffLog.push(st.f.replace(/<[^>]+>/g,'')+' '+(ja?'Ja':'Nein'));if(ja)return ffWeiter(true);
+  document.getElementById('ffJaNein').hidden=true;document.getElementById('ffFixText').innerHTML=st.fix;document.getElementById('ffFix').hidden=false}
+function ffWeiter(){ffI++;if(ffI<ffAkt.st.length)return ffZeig();ffEnde(false)}
+function ffGeklappt(){ffEnde(true)}
+function ffEnde(ok){document.getElementById('ffFrage').hidden=true;document.getElementById('ffEnde').hidden=false;
+  document.getElementById('ffEndeTitel').textContent=ok?'🌷 Geschafft!':'Gut, dass ich so viel geprüft habe.';
+  document.getElementById('ffEndeText').textContent=ok?'Ich habe es selbst herausgefunden. Das merke ich mir.':'Jetzt fehlt nur noch ein kleines Stück. Das finden wir mit Hilfe.';
+  document.getElementById('ffHilfe').hidden=ok;
+  document.getElementById('ffBericht').value='Bei mir geht etwas nicht: '+ffAkt.t+'. '+handySatz()+' Ich habe schon geprüft: '+ffLog.join(' / ')+'.';
+  try{logAdd('Fehler-Finder „'+ffAkt.t+'“: '+(ok?'selbst gelöst':'Hilfe gefragt'),'Erika')}catch(e){}}
+ffListe();
 /* ---- Gesundheit ---- */
 let gWerte=load('gWerte',[]);
 function gRender(){const b=document.getElementById('gList');if(!gWerte.length){b.innerHTML='';return}
