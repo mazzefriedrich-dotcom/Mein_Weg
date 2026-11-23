@@ -1,7 +1,7 @@
 /* Mein Wegbegleiter: Service Worker.
    Neue Versionen werden nur geladen und WARTEN. Aktiv werden sie erst,
    wenn Erika in der App auf „Update annehmen“ tippt. */
-const C='mein-helfer-v66';
+const C='mein-helfer-v67';
 const APP=['./','index.html','manifest.json','icon-192.png','icon-512.png','fundament-poster.html','fundament-kurz.html','fundament-kurz.pdf','qr.js'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(APP)))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));

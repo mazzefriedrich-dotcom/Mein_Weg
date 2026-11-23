@@ -1320,10 +1320,16 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
     <p class="note">Meine Bank, Amazon, PayPal und Google fragen nie per Nachricht nach meinem Passwort, einer PIN oder einem Code.</p>
   </div>
   <div class="card" id="appsBrauche">
-    <h2>✅ Diese Apps brauche ich, damit alles läuft</h2>
-    <p>Das ist meine kleine Grundausstattung. Ich hake ab, was schon auf meinem Handy ist. Fehlt eine, tippe ich auf „Im Play Store suchen“.</p>
+    <h2>📲 Mein Komplettpaket: diese Apps brauche ich</h2>
+    <p>Meine Grundausstattung, <b>in dieser Reihenfolge</b>. So richte ich auch ein <b>neues Handy</b> ein. Ich hake ab, was erledigt ist. Fehlt eine App, tippe ich auf „Im Play Store suchen“.</p>
+    <details class="tb"><summary><b>💡 Gut zu wissen: Echo und Licht hängen nicht am Handy</b></summary>
+      <p>Meine Echos und Lampen sind mit meinem <b>Amazon-Konto</b> und meinem <b>LSC-Konto</b> verbunden, im Internet. Nicht mit dem Handy.</p>
+      <p>Darum: Ist das Handy neu oder weg, sagt Alexa trotzdem weiter <b>„Licht an“</b>. Die LSC-App brauche ich nur, wenn eine <b>neue Lampe</b> dazukommt oder ich etwas ändern möchte.</p>
+      <p class="note">Wichtig ist nur: Ich melde mich in Alexa und LSC wieder mit <b>meinen</b> Konten an, nicht mit neuen.</p></details>
     <div id="abList"></div>
     <p class="note" id="abInfo" style="text-align:center"></p>
+    <p class="note">Huawei-Handy ohne Google? Dann gibt es die Apps in der <b>AppGallery</b>. Was dort fehlt, richten wir zusammen ein.</p>
+    <button class="cmd" style="width:100%;min-height:52px" onclick="abNeu()">🔄 Neues Handy: Liste von vorn beginnen</button>
   </div>
   <div class="card" id="wichtigeApps">
     <h2>⭐ Meine wichtigen Apps, der Reihe nach</h2>
@@ -1530,8 +1536,8 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
       <li><b>SIM-Karte sperren:</b> Vodafone anrufen (Nummer auf der Rechnung) oder in MeinVodafone sperren.</li>
       <li><b>Bank sperren lassen</b>, wenn Banking-Apps drauf waren: <a href="tel:116116">Sperr-Notruf 116 116</a>.</li>
       <li>Bei Diebstahl: <b>Anzeige bei der Polizei</b>.</li>
-      <li class="d-g"><b>Neues Handy:</b> mit Google-Konto anmelden, Bitwarden installieren, Master-Passwort, fertig. Alles kommt zurück.</li>
-      <li class="d-hms"><b>Neues Handy:</b> mit HUAWEI ID anmelden, Sicherung vom USB-Stick zurückholen, Bitwarden installieren, Master-Passwort, fertig.</li>
+      <li class="d-g"><b>Neues Handy:</b> mit Google-Konto anmelden, Bitwarden installieren, Master-Passwort, fertig. Alles kommt zurück. <a href="#" onclick="ffZu('apps','appsBrauche');return false">› Mein Komplettpaket zum Abhaken</a></li>
+      <li class="d-hms"><b>Neues Handy:</b> mit HUAWEI ID anmelden, Sicherung vom USB-Stick zurückholen, Bitwarden installieren, Master-Passwort, fertig. <a href="#" onclick="ffZu('apps','appsBrauche');return false">› Mein Komplettpaket zum Abhaken</a></li>
     </ol>
     <button class="cmd" style="width:100%;min-height:56px" onclick="fuDruck()">🖨️ Notfallkarte ausdrucken</button>
     <p class="note">Die Karte lege ich zu Hause an einen festen Ort, zum Beispiel in den Kleiderschrank. Dann habe ich alles, auch ohne Handy.</p>
@@ -3080,7 +3086,7 @@ function psRender(){document.getElementById('psName').textContent=TH_NAME;const 
 function psDruck(){psRender();const w=window.open('','_blank');if(!w)return;const sec=document.querySelector('section[data-page="pruefstelle"]').cloneNode(true);sec.querySelectorAll('button').forEach(b=>b.remove());sec.hidden=false;
   w.document.write('<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Zum Vorzeigen</title><style>body{font-family:system-ui,sans-serif;font-size:12.5pt;line-height:1.45;margin:15mm;color:#222}.card{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:0 0 10px}h2{font-size:14pt;color:#5b3a8e;margin:4px 0}.big-rule{font-size:18pt;font-weight:800}.note{color:#555;font-size:10.5pt}</style></head><body>'+sec.innerHTML+'<p class="note">Ausgedruckt am '+new Date().toLocaleDateString('de-DE')+'</p></body></html>');w.document.close();setTimeout(()=>w.print(),300)}
 /* ---- Updates nur mit Zustimmung ---- */
-const APP_VERSION=66;let updReg=null,updAngenommen=false,updNeu=[];
+const APP_VERSION=67;let updReg=null,updAngenommen=false,updNeu=[];
 async function updListe(){try{const r=await fetch('was-ist-neu.json?'+Date.now(),{cache:'no-store'});if(r.ok){const l=await r.json();return l.filter(x=>x.version>APP_VERSION).sort((a,b)=>a.version-b.version)}}catch(e){}return []}
 async function updPruefen(){const st=document.getElementById('updStand');if(st)st.textContent='Meine Version: '+APP_VERSION+'.';
   if(!updReg||!updReg.waiting||!navigator.serviceWorker.controller){document.getElementById('updBox').innerHTML='';return}
@@ -3150,25 +3156,29 @@ function mcStart(){mcSt.res={};store('monatsCheck',mcSt);go('blick');setTimeout(
 function mcKalender(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()+1);d.setHours(11,0,0,0);icsFile('Monats-Check','🗓️ Monats-Check: Wer ist bei mir angemeldet?','Mein Wegbegleiter › Was hat sich verändert? › Monats-Check. Etwa 5 Minuten.',d,'FREQ=MONTHLY;BYMONTHDAY=1',['PT0M'])}
 mcRender();try{monatsBoxRender()}catch(e){}
 /* ---- Apps, die ich brauche ---- */
-const AB=[['🛒','Amazon','Mein Konto für Einkäufe. Darauf laufen auch Alexa, Fire TV und Prime.','Amazon Shopping'],
+const AB=[
+ ['📶','WLAN verbinden','Einstellungen › WLAN › mein Netz. Der Schlüssel steht unten auf der FritzBox.','',1],
+ ['👤','Google-Konto anmelden','Mit <b>meiner einen E-Mail</b>. Dann kommen Kontakte, Fotos und viele Apps von selbst zurück.','',1],
+ ['🔐','Bitwarden, als Erstes','Mit meinem Hauptpasswort vom <b>Notfallblatt</b>. Danach füllt Bitwarden bei allen anderen Apps die Passwörter aus.','Bitwarden'],
+ ['🛒','Amazon','Mein Konto für Einkäufe. Darauf laufen auch Alexa, Fire TV und Prime.','Amazon Shopping'],
  ['🗣️','Alexa','Meine Echos, Musik, Anrufe und Erinnerungen einstellen.','Amazon Alexa'],
- ['💡','LSC Smart Connect','Meine Lampen und Steckdosen. Über Alexa auch mit der Stimme.','LSC Smart Connect'],
- ['🔐','Bitwarden','Alle meine Passwörter an einem sicheren Ort.','Bitwarden'],
+ ['💡','LSC Smart Connect','Nur nötig, um neue Lampen hinzuzufügen oder etwas zu ändern.','LSC Smart Connect'],
  ['📧','Meine E-Mail-App','Meine Post und Bestätigungen. Hier kommen auch Rechnungen an.','E-Mail'],
- ['👤','Google: Play Store und „Mein Gerät finden“','Apps holen und mein Handy wiederfinden, wenn es weg ist.','Google Mein Gerät finden'],
- ['💬','WhatsApp','Nachrichten und Anrufe mit Familie und Freunden.','WhatsApp'],
- ['🏦','Targobank','Mein Konto ansehen und Zahlungen freigeben.','Targobank'],
+ ['💬','WhatsApp','Nachrichten und Anrufe mit Familie und Freunden. Beim Einrichten „Chats wiederherstellen“ wählen.','WhatsApp'],
+ ['🏦','Targobank','Mein Konto ansehen und Zahlungen freigeben. Das Freischalten auf dem neuen Handy macht die Bank mit mir.','Targobank'],
  ['💳','PayPal','Sicher bezahlen, ohne meine Kontodaten weiterzugeben.','PayPal'],
- ['🖼️','Amazon Photos','Meine Fotos sichern und am Fernseher ansehen.','Amazon Photos'],
  ['🦊','Firefox','Mein Internet-Browser für alles andere. Er arbeitet gut mit Bitwarden zusammen.','Firefox'],
+ ['🖼️','Amazon Photos','Meine Fotos sichern und am Fernseher ansehen.','Amazon Photos'],
  ['🤖','Claude','Fragen in Ruhe stellen und mir Dinge erklären lassen.','Claude by Anthropic'],
- ['🌷','Mein Wegbegleiter','Diese App. Sie liegt als Symbol auf meinem Startbildschirm.',''],
- ['📺','VLC (auf dem Fire TV, nicht auf dem Handy)','Filme und Fotos von der Festplatte am Fernseher abspielen.','']];
+ ['📍','Google „Mein Gerät finden“','Damit ich mein Handy wiederfinde, wenn es weg ist.','Google Mein Gerät finden'],
+ ['🌷','Mein Wegbegleiter und meine Sicherung','Die App öffnen › Zum Startbildschirm hinzufügen. Dann bei „Sicherung“ meine Datei vom USB-Stick zurückholen.','',1],
+ ['📺','VLC (auf dem Fire TV, nicht auf dem Handy)','Filme und Fotos von der Festplatte am Fernseher abspielen. Bleibt beim Handywechsel, wie es ist.','',1]];
 let abSt=load('appsDa',{});
-function abRender(){const b=document.getElementById('abList');if(!b)return;b.innerHTML='';AB.forEach(([i,n,w,q],k)=>{const d=document.createElement('div');d.className='tb';const da=!!abSt[k];
-  d.innerHTML='<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="width:28px;height:28px;flex:none;margin-top:2px" '+(da?'checked':'')+'><span><b>'+i+' '+n+'</b><br>'+w+'<br><small>'+(da?(k===AB.length-1?'✓ ist auf meinem Fernseher':'✓ ist auf meinem Handy'):(k===AB.length-1?'Abhaken, wenn sie auf meinem Fernseher ist':'Abhaken, wenn sie auf meinem Handy ist'))+'</small></span></label>'+(!da&&q?'<a class="cmd" style="display:block;text-align:center;min-height:auto;padding:10px;margin-top:6px" target="_blank" href="https://play.google.com/store/search?q='+encodeURIComponent(q)+'&c=apps">🔎 Im Play Store suchen</a>':'');
-  d.querySelector('input').onchange=e=>{if(e.target.checked)abSt[k]=1;else delete abSt[k];store('appsDa',abSt);abRender()};b.appendChild(d)});
-  const n=Object.keys(abSt).length;document.getElementById('abInfo').textContent=n===AB.length?'✓ Alles da. Schön! 🌷':n+' von '+AB.length+' abgehakt.'}
+function abRender(){const b=document.getElementById('abList');if(!b)return;b.innerHTML='';AB.forEach(([i,n,w,q,schritt],k)=>{const d=document.createElement('div');d.className='tb';const key=n;const da=!!abSt[key];
+  d.innerHTML='<label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer"><input type="checkbox" style="width:28px;height:28px;flex:none;margin-top:2px" '+(da?'checked':'')+'><span><b>'+(k+1)+'. '+i+' '+n+'</b><br>'+w+(da?'<br><small>✓ erledigt</small>':'')+'</span></label>'+(!da&&q?'<a class="cmd" style="display:block;text-align:center;min-height:auto;padding:10px;margin-top:6px" target="_blank" href="https://play.google.com/store/search?q='+encodeURIComponent(q)+'&c=apps">🔎 Im Play Store suchen</a>':'')+(!da&&k===14?'<a class="cmd" style="display:block;text-align:center;min-height:auto;padding:10px;margin-top:6px" href="#" onclick="go(\'sicherung\');return false">💾 Zur Sicherung</a>':'');
+  d.querySelector('input').onchange=e=>{if(e.target.checked)abSt[key]=1;else delete abSt[key];store('appsDa',abSt);abRender()};b.appendChild(d)});
+  const n=AB.filter(x=>abSt[x[1]]).length;document.getElementById('abInfo').textContent=n===AB.length?'✓ Alles da. Schön! 🌷':n+' von '+AB.length+' erledigt.'}
+function abNeu(){if(!confirm('Alle Haken für ein neues Handy wieder entfernen?'))return;abSt={};store('appsDa',abSt);abRender();try{logAdd('Neues Handy: Liste neu begonnen','Erika')}catch(e){}}
 abRender();
 /* ---- Bitwarden Notfallblatt ---- */
 function bwSet(){const c=document.getElementById('bwBlatt').checked;store('bwBlatt',c?Date.now():0);try{logAdd(c?'Bitwarden-Notfallblatt liegt im Schrank':'Bitwarden-Notfallblatt: Haken entfernt','Erika')}catch(e){}bwRender()}
