@@ -924,6 +924,12 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
 
 <!-- VORSORGE -->
 <section data-page="vorsorge" data-title="Vorsorge" hidden>
+  <div class="card" id="nachlass">
+    <h2>🕊️ Mein digitaler Nachlass</h2>
+    <p>Wer kümmert sich später um meine Konten, E-Mails und Fotos? Das bestimme <b>ich selbst</b>, in Ruhe und schriftlich.</p>
+    <ol><li>Ich wähle <b>eine Vertrauensperson</b>.</li><li>Ich schreibe eine <b>Liste meiner Konten</b> auf: welcher Dienst, welche E-Mail. <b>Ohne Passwörter.</b></li><li>Für die Passwörter gibt es den <b>Bitwarden-Notfallzugriff</b>, mit Wartezeit, die ich bestimme. <a href="#" onclick="ffZu('fundament','bwNot');return false">› Mehr dazu</a></li><li>Ich unterschreibe, mit Datum. Auf Wunsch lasse ich das beim <b>Notar</b> oder bei der <b>Betreuungsbehörde</b> beglaubigen.</li></ol>
+    <p class="note">Gute, neutrale Beratung gibt es bei der <b>Verbraucherzentrale</b>. Das hier ist keine Rechtsberatung.</p>
+  </div>
   <div class="card rule"><p class="big-rule">Das entscheide ich ganz allein.</p><p>Ich nehme mir Zeit. Niemand darf mich drängen, auch nicht aus der Familie. Am besten lasse ich mich <b>neutral beraten</b>, zum Beispiel beim Notar, bei einem Betreuungsverein oder bei der Verbraucherzentrale.</p></div>
   <div class="card">
     <h2>🩺 Patientenverfügung</h2>
@@ -1118,6 +1124,13 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
     <div id="mcList"></div>
     <p class="note" id="mcInfo"></p>
     <button class="cmd" style="width:100%;min-height:52px" onclick="mcKalender()">📅 Jeden Monat daran erinnern</button>
+  </div>
+  <div class="card" id="datenleck">
+    <h2>🔍 Ist meine E-Mail in einem Datenleck?</h2>
+    <p>Das Hasso-Plattner-Institut prüft kostenlos, ob meine E-Mail-Adresse irgendwo im Internet aufgetaucht ist.</p>
+    <a class="cmd" style="display:block;text-align:center;min-height:auto;padding:12px" href="https://sec.hpi.de/ilc/" target="_blank">↗ HPI Identity Leak Checker öffnen</a>
+    <ul><li>Ich gebe meine E-Mail ein. Das Ergebnis kommt <b>nur an diese Adresse</b>, nirgendwo sonst hin.</li>
+    <li><b>„Gefunden“ heißt nicht „geknackt“.</b> Es heißt nur: Ein Dienst hatte einmal ein Datenleck. Dann ändere ich dort das Passwort (Bitwarden macht ein neues) und schalte die <b>Bestätigung in zwei Schritten</b> ein.</li></ul>
   </div>
   <div class="card" id="fremdGeraet">
     <h2>📱 Ein fremdes Gerät in meinem Konto?</h2>
@@ -1336,6 +1349,11 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
       <p class="note">Auch „Ihr Speicher ist voll“, „Ihr Spotify-Konto“ oder „Ihre Versicherung“ sind beliebte Maschen. Ich muss nichts davon sofort tun.</p></details>
     <a class="callbtn" style="background:var(--brand)" href="#" onclick="go('finder');setTimeout(()=>ffStart('link'),250);return false">🔗 Ich habe schon getippt. Was jetzt?</a>
   </div>
+  <div class="card" id="grundausstattung">
+    <h2>🧰 Meine Grundausstattung: Geräte</h2>
+    <p class="note">Antippen, was ich habe und was läuft.</p>
+    <div id="geList"></div>
+  </div>
   <div class="card" id="appsBrauche">
     <h2>📲 Mein Komplettpaket: diese Apps brauche ich</h2>
     <p>Meine Grundausstattung, <b>in dieser Reihenfolge</b>. So richte ich auch ein <b>neues Handy</b> ein. Ich hake ab, was erledigt ist. Fehlt eine App, tippe ich auf „Im Play Store suchen“.</p>
@@ -1435,9 +1453,19 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
 <section data-page="fundament" data-title="Mein Fundament" hidden>
   <div class="card motiv"><p class="big-rule">Mein Fundament 🏛️</p><p>Wie bei einem Haus: Unten ist das Fundament, darauf baut alles auf. Ist das Fundament fest, kann oben mal etwas kaputtgehen, ein Handy, eine App, ein Passwort. Das ist dann schnell repariert. Ein neues Handy ist in etwa <b>20 Minuten</b> wieder eingerichtet.</p></div>
   <div class="card">
-    <h2>🧱 Meine Säulen</h2>
+    <h2>🧱 Mein Fundament in kleinen Kapiteln</h2>
+    <p style="font-size:1.6em;font-weight:800;margin:4px 0;color:var(--brand)">Steht zu <span id="fuProz">0 %</span></p>
+    <div style="height:18px;background:#eee;border-radius:9px;overflow:hidden"><div id="fuBalken" style="height:100%;width:0;background:var(--ok);transition:width .4s"></div></div>
+    <p id="fuNaechste" style="margin-top:10px"></p>
     <p class="note">Antippen, wenn es bei mir so ist.</p>
     <div id="fuList"></div>
+  </div>
+  <div class="card" id="gutTut">
+    <h2>🎁 Das wartet auf mich, wenn mein Fundament steht</h2>
+    <p>Dinge, die einfach gut tun. Erst kommt das Fundament, dann darf ich <b>aussuchen</b>. Ich muss nichts davon nehmen.</p>
+    <p class="note" id="gtInfo"></p>
+    <div id="gtList"></div>
+    <button class="cmd" id="gtSchick" style="width:100%;min-height:56px" onclick="gtSchicken()" hidden>💬 Meine Auswahl an die Technik-Hilfe schicken</button>
   </div>
   <div class="card" id="mailPlan">
     <h2>📧 Meine E-Mail-Adressen und Nummern</h2>
@@ -1461,6 +1489,17 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
     </ul>
     <p class="note">Warum ich mein Passwort niemandem gebe: <a href="#" onclick="go('warum');setTimeout(()=>document.getElementById('pwNiemand').scrollIntoView(),200);return false">hier in Ruhe erklärt</a>.</p>
     <p class="note">Läuft mein Konto noch auf den Namen meines Mannes? Dann frage ich die Targobank in Ruhe, wie es auf meinen Namen umgestellt wird.</p>
+  </div>
+  <div class="card" id="zweiKonten">
+    <h2>💶 Bezahlen sicher aufteilen</h2>
+    <p>Eine gute Idee, die ich mit meiner Bank besprechen kann: <b>zwei Töpfe</b>.</p>
+    <div class="tb"><p><b>🏡 Mein „Hab und Gut“-Konto</b></p><p>Rente kommt hier an. Miete, Versicherungen, Strom, Auto gehen hier ab. Den <b>Dispo</b> senke ich, wenn ich ihn nicht brauche.</p></div>
+    <div class="tb"><p><b>🛍️ Mein Einkaufskonto</b></p><p>Amazon, Abos, PayPal und meine Einkaufskarte laufen <b>nur</b> hierüber. Jeden Monat kommt per <b>Dauerauftrag</b> ein fester Betrag hinein. <b>Kein Dispo.</b> Passiert hier etwas, ist höchstens dieser Betrag betroffen.</p></div>
+    <ul><li>Auch möglich: eine <b>Prepaid-Kreditkarte</b> oder <b>Guthabenkarten</b> aus dem Supermarkt, zum Beispiel für den Play Store.</li>
+    <li><b>PayPal</b> mit meiner eigenen, ruhigen E-Mail und mit <b>Bestätigung in zwei Schritten</b>.</li>
+    <li><b>Prepaid-Handy:</b> automatische Aufladung per Lastschrift vom Einkaufskonto, oder Aufladekarten. So bleibt meine Nummer aktiv.</li>
+    <li>Eine Lastschrift kann ich <b>8 Wochen</b> lang zurückholen. Ohne meine Erlaubnis sogar <b>13 Monate</b>.</li></ul>
+    <p class="note">Das ist ein Vorschlag, keine Pflicht. Was zu mir passt, bespreche ich in Ruhe mit meiner Bank.</p>
   </div>
   <a class="callbtn" style="background:var(--brand)" href="fundament-poster.html" target="_blank">🖨️ Mein Fundament als Poster drucken</a>
   <p class="note" style="text-align:center;margin-top:-2px">Drei DIN-A4-Seiten: das Haus, wie alles zusammenhängt, und was tun, wenn das Handy weg ist. Zum Aufhängen in den Kleiderschrank.</p>
@@ -1543,6 +1582,11 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
       <li><b>Fremde WLANs nicht von selbst verbinden:</b> Einstellungen › WLAN › Weitere Einstellungen (oder ⋮): „Mit offenen Netzen automatisch verbinden“ <b>aus</b>. Nach dem Krankenhaus oder Café das Netz <b>vergessen</b>: den WLAN-Namen lange drücken › „Netzwerk entfernen“.</li>
       <li><b>Öffentliches WLAN</b>, zum Beispiel im Krankenhaus: Für Bank und PayPal lieber die <b>mobilen Daten</b> nehmen, also WLAN kurz aus. Diese App schickt sowieso nichts weg, sie ist davon nicht betroffen.</li>
     </ul>
+    <details class="tb" id="unterwegs"><summary><b>🏥 Unterwegs und im Krankenhaus: Internet vom Handy</b></summary>
+      <p><b>Hotspot:</b> Mein Handy kann sein Internet mit dem Tablet teilen. Von oben wischen › <b>Hotspot</b> (oder „Mobiler Hotspot“) antippen. Am Tablet dann dieses WLAN wählen. Das <b>übe ich einmal zu Hause</b>, dann klappt es im Krankenhaus ohne Aufregung.</p>
+      <p><b>Wie viel Datenvolumen brauche ich ungefähr?</b></p>
+      <ul><li>Video-Anruf: etwa <b>0,5 bis 1 GB pro Stunde</b></li><li>Filme oder Serien streamen: etwa <b>1 bis 3 GB pro Stunde</b></li><li>Ein normaler Monat mit WhatsApp, Mails, etwas Surfen: etwa <b>10 GB</b></li></ul>
+      <p class="note">Tipp: Folgen und Filme vorher <b>zu Hause im WLAN herunterladen</b> (Prime Video und Netflix können das). Dann kostet das Anschauen im Krankenhaus kein Datenvolumen.</p></details>
   </div>
   <div class="card" id="handyweg">
     <h2>📵 Handy weg oder gestohlen?</h2>
@@ -1946,6 +1990,14 @@ body:not([data-handy]) .d-hms::before{content:"Huawei ohne Google: ";font-weight
 
 <!-- SICHERUNG -->
 <section data-page="sicherung" data-title="Meine Sicherung" hidden>
+  <div class="card" id="unterlagen">
+    <h2>🗂️ Meine Unterlagen auf dem USB-Stick</h2>
+    <p>Wichtige Papiere fotografiere oder scanne ich und lege sie in <b>fünf Ordner</b>:</p>
+    <ol><li>📁 <b>1 Gesundheit</b>: Arztbriefe, Medikationsplan, Befunde</li><li>📁 <b>2 Bank</b>: Kontoauszüge, Karten-Infos (nie PIN!)</li><li>📁 <b>3 Versicherung</b></li><li>📁 <b>4 Verträge</b>: Handy, Internet, Strom, Abos</li><li>📁 <b>5 Wohnung</b>: Mietvertrag, Nebenkosten</li></ol>
+    <p><b>Klare Namen</b> helfen beim Finden, zum Beispiel: <code>2026-11 Arztbrief Hausärztin.pdf</code>. Finden kann ich alles in der App <b>„Dateien“</b> über die <b>Suche</b> oben.</p>
+    <ul><li>Der Stick hat ein <b>Passwort</b> und liegt im <b>Schrank</b>.</li><li><b>Zwei Kopien</b>: eine im Schrank, eine an einem zweiten Ort.</li><li>Meine Krankenkasse bietet eine <b>elektronische Patientenakte (ePA)</b> in ihrer App. Da können Ärzte Befunde hineinlegen.</li></ul>
+    <p class="note">Möchte ich etwas erklärt bekommen, kann ich <b>eine einzelne Datei</b> mit Claude teilen. Nur bei Bedarf, nicht den ganzen Ordner.</p>
+  </div>
   <div class="card">
     <h2>💾 Warum sichern?</h2>
     <p>Meine Einträge in dieser App liegen nur auf diesem Handy: Tagebuch, Tabletten, Termine, Verträge, Vorrat und Häkchen. Geht das Handy kaputt oder wird die App gelöscht, sind sie weg. Mit einer Sicherung hole ich alles zurück.</p>
@@ -2378,7 +2430,7 @@ async function wJahr(){const all=load('wochen',{}),keys=Object.keys(all).sort().
   box.innerHTML='<p>'+keys.length+' '+(keys.length===1?'Woche':'Wochen')+' gesammelt.</p>'+keys.map(k=>{const e=all[k];return '<div class="wk"><b>Woche vom '+new Date(k+'T12:00').toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})+'</b>'+(fotos[k]?'<img src="'+fotos[k]+'" alt="Foto der Woche">':'')+WQ.filter(q=>e[q]).map(q=>'<p><span class="note">'+WQL[q]+':</span> '+esc(e[q])+'</p>').join('')+'</div>'}).join('')}
 
 /* ---- Sicherung (alles) ---- */
-const BK_KEYS=['menschen','wochen','checks','diary','vertraege','reihen','packs','rauchfrei','eDates','papierOrt','angebote','vorrat','gWerte','tabs','termine','genommen','wichtig','aenderungen','blick','geloest','wissen','wuensche','fotoOrte','protokolle','fundament','fbZustimmung','teilen','aufraeumen','neuSt','tresor','handy','handyModell','nutzung','entdeckt','schlossOpt','mailPlan','amazon2','monatsCheck','appsDa','bwBlatt','meineMail'];
+const BK_KEYS=['menschen','wochen','checks','diary','vertraege','reihen','packs','rauchfrei','eDates','papierOrt','angebote','vorrat','gWerte','tabs','termine','genommen','wichtig','aenderungen','blick','geloest','wissen','wuensche','fotoOrte','protokolle','fundament','fbZustimmung','teilen','aufraeumen','neuSt','tresor','handy','handyModell','nutzung','entdeckt','schlossOpt','mailPlan','amazon2','monatsCheck','appsDa','bwBlatt','meineMail','fundPlus','geraete','gutTut'];
 async function backupAll(nurDatei){
   const data={app:'mein-helfer',version:1,datum:new Date().toISOString(),daten:{}};
   try{data.fotos=await fotoAll()}catch(e){}
@@ -2794,11 +2846,39 @@ const FUND=[
  ['💾','Meine Sicherung','Jede Woche auf den USB-Stick. Dann geht nichts verloren.'],
  ['♻️','Meine Ersatz-Nummer und Ersatz-E-Mail gehören mir','Viele Konten haben eine Ersatz-Nummer oder Ersatz-E-Mail für „Passwort vergessen“. Die muss <b>meine eigene</b> sein, noch <b>aktiv</b>, und ich muss sie selbst öffnen können. Keine alte Prepaid-Nummer, keine alte E-Mail, die ich nicht mehr nutze. Prüfen: Google › Sicherheit › Wiederherstellungs-Telefonnummer und -E-Mail.']];
 let fund=load('fundament',{});
-function fuRender(){const b=document.getElementById('fuList');b.innerHTML='';
-  FUND.forEach(([e,t,w],i)=>{const d=document.createElement('div');d.className='saeule';d.innerHTML='<span class="e">'+e+'</span><div><p><b>'+t+'</b></p><p class="note">'+w+'</p></div><button class="cmd"></button>';
-    const btn=d.querySelector('button');btn.textContent=fund[i]?'✓ Steht':'○ Noch offen';btn.className='cmd'+(fund[i]?' ':'');btn.style.background=fund[i]?'#e3f4e5':'';btn.style.borderColor=fund[i]?'#7cc488':'';
-    btn.onclick=()=>{fund[i]=!fund[i];store('fundament',fund);fuRender()};b.appendChild(d)});
-  const n=FUND.filter((_,i)=>fund[i]).length;document.getElementById('fuSmall').textContent=n?n+' von '+FUND.length+' Säulen stehen':'Das Wichtigste, worauf alles aufbaut';
+const FU_PLUS={
+ wlanNotiert:['📝','WLAN-Name und Passwort notiert, liegen im Schrank','<b>Goldene Regel:</b> WLAN-Name und WLAN-Passwort ändern sich <b>nie</b>. Sonst verlieren Echos, Lampen, Fernseher und Drucker ihre Verbindung und müssen alle neu eingerichtet werden.'],
+ bank:['🏦','Mein Online-Banking läuft, nur bei mir','Die Banking-App ist auf meinem Handy. Freigaben kommen nur an mich. Niemand sonst meldet sich dort an.'],
+ amazonEins:['🛒','Ein Amazon-Konto, keine doppelten','Alle Echos, der Fire TV und meine Bestellungen hängen an <b>einem</b> Konto mit meiner E-Mail. <a href="#" onclick="ffZu(\'wissen\',\'amz2\');return false">› Zwei Amazon-Konten?</a>'],
+ gBackup:['🗝️','Neue Google-Backup-Codes, nur bei mir im Schrank','Google › Sicherheit › Bestätigung in zwei Schritten › <b>Backup-Codes</b> › „Neue Codes“. Dadurch werden alle alten Codes ungültig. Die neuen schreibe ich auf und lege sie zu meinem Notfallblatt.'],
+ fritzTel:['☎️','FritzBox läuft, mein Telefon geht darüber','Festnetz-Telefon und Internet kommen beide aus der FritzBox.'],
+ myfritz:['🛰️','MyFritz eingerichtet, nur mit meiner Zustimmung','Damit kann ich meine FritzBox auch von unterwegs sehen. Ob jemand anderes einen Bericht bekommt, entscheide ich (bei „Was eingerichtet wurde“).'],
+ echos:['🗣️','Meine Echos laufen','Alle Echos antworten und hängen an meinem Amazon-Konto.'],
+ ordner:['🗂️','Meine Unterlagen liegen geordnet auf dem USB-Stick','<a href="#" onclick="ffZu(\'sicherung\',\'unterlagen\');return false">› So ordne ich meine Unterlagen</a>']};
+const FU_KAP=[
+ ['🌱','Kapitel 1: Mein kleines Fundament','Das Wichtigste zuerst.',['wlanNotiert',3,'bank','amazonEins',4]],
+ ['📱','Kapitel 2: Meine Nummer und meine Codes','Damit ich immer selbst in meine Konten komme.',[0,1,9,'gBackup']],
+ ['🔐','Kapitel 3: Meine Passwörter','Alles an einem sicheren Ort.',[5,'*bw',2]],
+ ['🏠','Kapitel 4: Mein Zuhause','WLAN, FritzBox und Echos laufen stabil.',[6,7,'fritzTel','myfritz','echos']],
+ ['💾','Kapitel 5: Meine Sicherung','Damit nichts verloren geht.',[8,'ordner']]];
+let fuPlus=load('fundPlus',{});
+function fuIst(x){return x==='*bw'?!!load('bwBlatt',0):typeof x==='number'?!!fund[x]:!!fuPlus[x]}
+function fuAlle(){return FU_KAP.flatMap(k=>k[3])}
+function fuProzent(){const a=fuAlle();return Math.round(100*a.filter(fuIst).length/a.length)}
+function fuRender(){const b=document.getElementById('fuList');b.innerHTML='';let naechste=null;
+  FU_KAP.forEach(([e,t,w,items],ki)=>{const n=items.filter(fuIst).length,pz=Math.round(100*n/items.length);
+    const d=document.createElement('details');d.className='tb';d.open=pz<100&&naechste===null;
+    d.innerHTML='<summary><b>'+e+' '+t+' <span style="white-space:nowrap;color:var(--ok)">· '+(pz===100?'✓ 100 %':pz+'&nbsp;%')+'</span></b></summary><p class="note">'+w+'</p>';
+    items.forEach(x=>{let em,ti,tx;if(x==='*bw'){em='📩';ti='Bitwarden-Notfallblatt liegt im Schrank';tx='<a href="#" onclick="ffZu(\'fundament\',\'bwNot\');return false">› Mein Notfallblatt</a> (dort abhaken)'}else if(typeof x==='number'){[em,ti,tx]=FUND[x]}else{[em,ti,tx]=FU_PLUS[x]}
+      const ok=fuIst(x);if(!ok&&naechste===null)naechste=ti;
+      const r=document.createElement('div');r.className='saeule';r.innerHTML='<span class="e">'+em+'</span><div><p><b>'+ti+'</b></p><p class="note">'+tx+'</p></div>'+(x==='*bw'?'<span class="cmd" style="pointer-events:none;'+(ok?'background:#e3f4e5;border-color:#7cc488':'')+'">'+(ok?'✓ Steht':'○ Noch offen')+'</span>':'<button class="cmd"></button>');
+      const btn=r.querySelector('button');if(btn){btn.textContent=ok?'✓ Steht':'○ Noch offen';btn.style.background=ok?'#e3f4e5':'';btn.style.borderColor=ok?'#7cc488':'';
+        btn.onclick=()=>{if(typeof x==='number'){fund[x]=!fund[x];store('fundament',fund)}else{fuPlus[x]=!fuPlus[x];store('fundPlus',fuPlus)}const nach=fuProzent();try{logAdd('Fundament: „'+ti+'“ '+(fuIst(x)?'steht':'wieder offen')+' ('+nach+' %)','Erika')}catch(e){}fuRender()}}
+      d.appendChild(r)});b.appendChild(d)});
+  const pz=fuProzent();document.getElementById('fuProz').textContent=pz+' %';document.getElementById('fuBalken').style.width=pz+'%';
+  document.getElementById('fuNaechste').innerHTML=pz===100?'🎉 <b>Mein Fundament steht!</b> Jetzt darf ich aussuchen, was mir gut tut. <a href="#" onclick="document.getElementById(\'gutTut\').scrollIntoView();return false">› Ansehen</a>':'👉 <b>Meine nächste kleine Aufgabe:</b> '+naechste+'<br><span class="note">Ein Kapitel alle paar Tage reicht völlig. Ganz in Ruhe.</span>';
+  document.getElementById('fuSmall').textContent=pz?'Steht zu '+pz+' %':'Das Wichtigste, worauf alles aufbaut';
+  try{gtRender()}catch(e){}
   const k=document.getElementById('notfallkarte');k.innerHTML='<h2>📵 Mein Handy ist weg</h2><ol>'+(handy()==='huawei'?'<li>Von einem anderen Gerät: cloud.huawei.com › Handy finden, mit meiner HUAWEI ID anmelden. Handy sperren oder löschen.</li>':'<li>Von einem anderen Gerät: google.com/android/find, mit meinem Google-Konto anmelden. Handy sperren oder löschen.</li>')+'<li>SIM sperren: Vodafone anrufen (Nummer auf der Rechnung).</li><li>Bank sperren: 116 116 (kostenlos, Tag und Nacht).</li><li>Bei Diebstahl: Polizei.</li><li>Neues Handy: '+(handy()==='huawei'?'HUAWEI ID und Sicherung vom USB-Stick':'Google-Konto')+', dann Bitwarden mit meinem Master-Passwort.</li></ol><p>Notruf: 112</p>'}
 function fuDruck(){const w=window.open('','_blank');if(!w)return;w.document.write('<!doctype html><meta charset="utf-8"><title>Notfallkarte</title><body style="font-family:sans-serif;font-size:18pt;max-width:700px;margin:20px auto;border:3px solid #5b3a8e;border-radius:16px;padding:20px">'+document.getElementById('notfallkarte').innerHTML+'</body>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
 function fuPruefen(){const q='Ich bin 70. Für meine Sicherheit im Internet wurde mir dieses „Fundament“ empfohlen:\n\n- '+FUND.map(f=>f[1]+': '+f[2]).join('\n- ')+'\n\nBitte prüfe ehrlich und neutral: Ist das richtig und sinnvoll? Ist etwas übertrieben, oder fehlt etwas? Was sagen BSI und Verbraucherzentrale dazu? Bitte einfach erklären und mich mit „Sie“ ansprechen.';window.open('https://claude.ai/new?q='+encodeURIComponent(q),'_blank')}
@@ -3103,7 +3183,7 @@ function psRender(){document.getElementById('psName').textContent=TH_NAME;const 
 function psDruck(){psRender();const w=window.open('','_blank');if(!w)return;const sec=document.querySelector('section[data-page="pruefstelle"]').cloneNode(true);sec.querySelectorAll('button').forEach(b=>b.remove());sec.hidden=false;
   w.document.write('<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Zum Vorzeigen</title><style>body{font-family:system-ui,sans-serif;font-size:12.5pt;line-height:1.45;margin:15mm;color:#222}.card{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:0 0 10px}h2{font-size:14pt;color:#5b3a8e;margin:4px 0}.big-rule{font-size:18pt;font-weight:800}.note{color:#555;font-size:10.5pt}</style></head><body>'+sec.innerHTML+'<p class="note">Ausgedruckt am '+new Date().toLocaleDateString('de-DE')+'</p></body></html>');w.document.close();setTimeout(()=>w.print(),300)}
 /* ---- Updates nur mit Zustimmung ---- */
-const APP_VERSION=68;let updReg=null,updAngenommen=false,updNeu=[];
+const APP_VERSION=69;let updReg=null,updAngenommen=false,updNeu=[];
 async function updListe(){try{const r=await fetch('was-ist-neu.json?'+Date.now(),{cache:'no-store'});if(r.ok){const l=await r.json();return l.filter(x=>x.version>APP_VERSION).sort((a,b)=>a.version-b.version)}}catch(e){}return []}
 async function updPruefen(){const st=document.getElementById('updStand');if(st)st.textContent='Meine Version: '+APP_VERSION+'.';
   if(!updReg||!updReg.waiting||!navigator.serviceWorker.controller){document.getElementById('updBox').innerHTML='';return}
@@ -3279,6 +3359,29 @@ function druckTabletten(){druckFenster('💊 Meine Tabletten',druckKlon('tabList
 function druckNotfall(){const z='<p style="border-bottom:1px solid #999;height:1.6em"></p>';druckFenster('🆘 Mein Notfallblatt','<p style="font-size:26pt;font-weight:800;color:#c62828;margin:0">Notruf: 112</p><p>Notarzt und Feuerwehr. Kostenlos, immer.</p><h2>📞 Wen rufen wir an? (von Hand eintragen)</h2>'+z+z+z+'<h2>🩺 Mein Hausarzt / meine Hausärztin</h2>'+z+'<h2>💊 Meine Tabletten</h2>'+(tabs.length?druckKlon('tabList'):'<p>Siehe Medikationsplan vom Arzt.</p>')+'<p class="note">Der <b>Medikationsplan vom Arzt</b> liegt hier: '+'_'.repeat(30)+'</p><h2>📱 Auf meinem Handy</h2><p>Notfall-Infos sind im Handy gespeichert und auch ohne PIN zu sehen (Sperrbildschirm › Notfall).</p>')}
 function druckTermine(){druckFenster('🩺 Meine Termine',druckKlon('terminList'))}
 function druckPack(){druckFenster('🧳 Meine Packlisten',Object.entries(packs).map(([n,l])=>'<h2>'+n+'</h2><ul>'+l.map(x=>'<li>☐ '+String(x).replace(/</g,'&lt;')+'</li>').join('')+'</ul>').join(''))}
+/* ---- Grundausstattung Geräte ---- */
+const GE=[['📺','Fernseher'],['🔥','Fire TV Stick'],['📱','Handy'],['💻','Tablet'],['🗣️','Echos'],['📡','FritzBox'],['🖨️','Drucker'],['💾','USB-Stick (mit Passwort, im Schrank)']];
+let geSt=load('geraete',{});
+function geRender(){const b=document.getElementById('geList');if(!b)return;b.innerHTML='';GE.forEach(([e,n])=>{const ok=!!geSt[n];const t=document.createElement('button');t.className='cmd';t.style.cssText='width:100%;text-align:left;margin:4px 0;min-height:52px;'+(ok?'background:#e3f4e5;border-color:#7cc488':'');t.innerHTML=e+' '+n+(ok?' ✓':'');t.onclick=()=>{geSt[n]=!geSt[n];store('geraete',geSt);geRender()};b.appendChild(t)})}
+geRender();
+/* ---- Das wartet auf mich ---- */
+const GT=[['🖼️','Echo Show','Ein Echo mit Bildschirm: Videoanrufe, Fotos, Uhr. Geht auch am Krankenbett über den Hotspot vom Handy.'],
+ ['🌡️','Heizkörper-Thermostate','„Alexa, mach es im Wohnzimmer wärmer.“ Und wenn ich nach Hause komme, ist es schon warm.'],
+ ['🪟','Lüften mit Nachfrage','Alexa fragt: „Möchtest du lüften?“ Nur wenn ich Ja sage, geht die Heizung runter. Nach etwa 10 Minuten erinnert sie mich ans Fensterschließen.'],
+ ['🚪','Wer ist an der Tür?','Klingel- oder Türspion-Kamera: „Alexa, wer ist da?“ Das Bild erscheint auf dem Fernseher als kleines Bild im Bild.'],
+ ['💜','Licht bei Migräne','„Alexa, ich habe Kopfweh.“ Dann wird das Licht warm und gedimmt.'],
+ ['📞','Anrufen mit der Stimme','„Alexa, ruf … an.“ Mit Bild geht es mit einem Echo Show.'],
+ ['🚗','Echo Auto mit meiner Musik','Meine eigene Playlist im Auto, mit der Stimme.'],
+ ['🏠','Zuhause-Wächter','Tür-Meldung und Kamera nur, wenn ich weg bin, und nur an mich. Wer einen Schlüssel hat, weiß davon.'],
+ ['😴','Schlaf verstehen','Eine Schlafanalyse ganz ohne Kamera, zum Beispiel mit der Uhr.']];
+let gtSt=load('gutTut',{});
+function gtRender(){const b=document.getElementById('gtList');if(!b)return;const frei=fuProzent()===100;b.innerHTML='';
+  document.getElementById('gtInfo').innerHTML=frei?'🎉 <b>Freigeschaltet!</b> Ich tippe an, was mich interessiert.':'🔒 Wird freigeschaltet, wenn mein Fundament zu 100 % steht. Jetzt: <b>'+fuProzent()+' %</b>. Anschauen darf ich schon.';
+  GT.forEach(([e,t,w])=>{const d=document.createElement('div');d.className='tb';const an=!!gtSt[t];d.innerHTML='<p><b>'+e+' '+t+'</b>'+(frei?'':' 🔒')+'</p><p>'+w+'</p>'+(frei?'<button class="cmd" style="width:100%;min-height:48px;'+(an?'background:#e3f4e5;border-color:#7cc488':'')+'">'+(an?'✓ Das möchte ich':'☆ Interessiert mich')+'</button>':'');
+    const bt=d.querySelector('button');if(bt)bt.onclick=()=>{gtSt[t]=!gtSt[t];store('gutTut',gtSt);gtRender()};b.appendChild(d)});
+  document.getElementById('gtSchick').hidden=!(frei&&Object.values(gtSt).some(Boolean))}
+function gtSchicken(){const l=GT.filter(g=>gtSt[g[1]]).map(g=>g[1]);window.open(waLink('Mein Fundament steht! 🎉 Das hier interessiert mich: '+l.join(', ')+'. Magst du es dir mit mir anschauen?'),'_blank');try{logAdd('Wünsche geschickt: '+l.join(', '),'Erika')}catch(e){}}
+gtRender();
 /* ---- Gesundheit ---- */
 let gWerte=load('gWerte',[]);
 function gRender(){const b=document.getElementById('gList');if(!gWerte.length){b.innerHTML='';return}
